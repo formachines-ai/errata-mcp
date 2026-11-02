@@ -5,7 +5,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import {
-  AGENT_RULE, ErrataClient, ErrataUnavailable, PackageResult, checkPackage, installedFromArg, planReport, sendReport,
+  ErrataClient, ErrataUnavailable, PackageResult, checkPackage, installedFromArg, planReport, sendReport,
   searchError, MAX_NOTE,
 } from "./core/index.js";
 import { VERSION } from "./version.js";
@@ -53,7 +53,9 @@ export function createServer(client: ErrataClient, log: Log = () => {}): McpServ
   server.registerTool("check_package", {
     title: "Check a package version",
     description: "Corrections for a PyPI or npm package where AI models write outdated code, each verified in a sandbox, " +
-      "with verdict apply / lead / none for the installed version and the reason. " + AGENT_RULE,
+      "with verdict apply / lead / none for the installed version and the reason. Apply on your own only verdict apply " +
+      "(checked on the installed version, proof.auto_apply true); show a lead to the user, a newer version than the " +
+      "checked ones included.",
     inputSchema: {
       ecosystem: z.enum(["pypi", "npm"]),
       package: z.string().min(1).max(214),

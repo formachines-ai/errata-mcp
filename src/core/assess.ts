@@ -6,11 +6,14 @@ import { ErrataClient, Entry, ChangelogEvent, normName } from "./client.js";
 export { normName };
 import { Ecosystem, Installed, cmp, fromSpec, satisfies, rangeAtMost } from "./version.js";
 
-/** The one rule the site prints in llms.txt and the page footer (errata/applicability.py AGENT_RULE). */
+/** The one rule the site prints in llms.txt, the page footer and the JSON agent_rule (errata/applicability.py AGENT_RULE);
+ * the same as CLIENT_RULE since the owner's decision of 2026-11-02. */
 export const AGENT_RULE =
-  "Apply a correction on your own only when its versions.fails_on is not newer than the installed version and its " +
-  "proof.auto_apply is true (proof.equivalent is true and proof.applicability.status is applies); otherwise show it " +
-  "to the user as a lead and do not apply it.";
+  "Apply a correction on your own only when the installed version is one it was checked on " +
+  "(versions.checked_on: versions.fails_on and every recheck) and its proof.auto_apply is true " +
+  "(proof.equivalent is true and proof.applicability.status is applies). On a newer version than those " +
+  "checked, a version between versions.works_on and versions.fails_on, or an unknown version, show it " +
+  "to the user as a lead and do not apply it; on versions.works_on or older it does not apply.";
 
 /** How the clients read it until D13: "not newer than installed" is proven only where a check ran on that version. */
 export const CLIENT_RULE =
@@ -54,9 +57,10 @@ export interface PackageResult {
 const INACTIVE = new Set(["merged", "withdrawn", "retracted"]);
 
 
-/** Versions an entry is proven on: fails_on and every changelog recheck of it. */
+/** Versions an entry is proven on: fails_on, versions.checked_on when the site gives it, and every changelog recheck. */
 export function verifiedOn(e: Entry, events: ChangelogEvent[]): string[] {
   const out = [e.versions.fails_on];
+  for (const v of e.versions.checked_on ?? []) if (!out.includes(v)) out.push(v);   // the site's list (2026-11-02)
   for (const ev of events) {
     if (ev.event === "rechecked" && ev.id === e.id && ev.version && !out.includes(ev.version)) out.push(ev.version);
   }

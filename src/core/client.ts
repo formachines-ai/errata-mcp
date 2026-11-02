@@ -198,7 +198,7 @@ export interface Entry {
   action?: string;
   detect?: string[];
   error_signature?: { type?: string; message?: string; norm?: string } | null;
-  versions: { fails_on: string; works_on?: string; changed_in?: string };
+  versions: { fails_on: string; works_on?: string; changed_in?: string; checked_on?: string[] };
   proof: { auto_apply?: boolean; auto_apply_reason?: string; fails_on?: string; works_on?: string };
   confirmations?: { worked: number; failed: number };
 }

@@ -46,10 +46,10 @@ one checked version is not a range*.
 
 ### Rule
 
-The `check_package` description carries the site's one rule: apply a correction on your own only when its
-`versions.fails_on` is not newer than the installed version and its `proof.auto_apply` is true; otherwise show it as
-a lead. Until the base proves ranges, the server gives `apply` only for versions the entry was checked on (`fails_on`
-and later rechecks): a newer version is `lead`.
+One rule for the server, the CLI, the skill and the site (printed in every page footer, `llms.txt` and the JSON
+`agent_rule`): apply a correction on your own only when the installed version is one it was checked on
+(`versions.checked_on`: `fails_on` and every recheck) and its `proof.auto_apply` is true. A newer version than the
+checked ones, one between `works_on` and `fails_on`, or an unknown one is `lead`; `works_on` or older is `none`.
 
 Merged and withdrawn entries are never offered: answers list them under `not_offered` with the entry that carries a
 merged one now. `report` refuses them before sending. An unreachable base is `technical_error` with `isError: true`,
