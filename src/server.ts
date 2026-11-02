@@ -6,7 +6,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import {
   ErrataClient, ErrataUnavailable, PackageResult, checkPackage, installedFromArg, planReport, sendReport,
-  searchError, MAX_NOTE,
+  searchError, missPayload, MAX_NOTE,
 } from "./core/index.js";
 import { VERSION } from "./version.js";
 
@@ -77,7 +77,9 @@ export function createServer(client: ErrataClient, log: Log = () => {}): McpServ
   server.registerTool("search_error", {
     title: "Search by error text",
     description: "Find corrections by an error message or traceback line (ImportError, AttributeError, TypeError …) " +
-      "or by an entry id. Returns the matching error signatures and their entries.",
+      "or by an entry id. Returns the matching error signatures and their entries. On no match it sends the error type " +
+      "and a scrubbed message (no code, paths, numbers or quoted values) to formachines.ai so missing errors get " +
+      "covered; ERRATA_NO_TELEMETRY=1 turns that off.",
     inputSchema: { text: z.string().min(1).max(2000) },
     annotations: { readOnlyHint: true, openWorldHint: true },
   }, async ({ text: q }) => {
@@ -85,6 +87,9 @@ export function createServer(client: ErrataClient, log: Log = () => {}): McpServ
     try {
       const r = await searchError(client, q);
       const status = r.match === "exact" ? "found" : r.match === "candidates" ? "candidates" : "no_match";
+      if (r.match === "none" && !r.excluded_ids.length) {
+        void client.reportMiss(missPayload(q, "mcp")).then((sent) => log("debug", `search_error miss sent=${sent}`));   // not awaited
+      }
       return text({
         status,
         hits: r.hits.map((h) => ({

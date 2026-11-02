@@ -124,4 +124,35 @@ describe("errata-mcp over stdio", () => {
     expect(merged.body).toMatchObject({ status: "merged", into: "npm/typescript/7.0.2/0004" });
     expect(log.filter((x) => x.method === "POST").length).toBe(1);                               // refused ones never sent
   });
+
+  it("8 a miss is reported in the background, a hit is not; telemetry off and a dropped connection change nothing", async () => {
+    const misses = () => log.filter((x) => x.method === "POST" && x.url.endsWith("/v1/miss"));
+    const before = misses().length;
+    await call(client, "search_error", { text: "ImportError: cannot import name 'session' from 'mcp.shared'" });   // hit
+    const miss = await call(client, "search_error", { text: "Traceback:\n  File \"/home/me/proj/x.py\", line 9\nKeyError: 'api_key_123'" });
+    expect(miss.body.status).toBe("no_match");
+    for (let i = 0; i < 50 && misses().length === before; i++) await new Promise((r) => setTimeout(r, 20));
+    expect(misses().length).toBe(before + 1);
+    const sent = misses().at(-1)!;
+    expect(JSON.parse(sent.body!)).toEqual({ source: "mcp", type: "KeyError", message: "'api_key_123'" });
+    expect(sent.ua).toBe(`formachines-errata-mcp/${VERSION}`);
+
+    const offLog: Recorded[] = [];
+    const offSite = await serveSnapshot(offLog);
+    const off = await connect({ ERRATA_BASE_URL: offSite.url, ERRATA_NO_TELEMETRY: "1" });
+    const dropLog: Recorded[] = [];
+    const dropSite = await serveSnapshot(dropLog, { miss: "drop" });
+    const drop = await connect({ ERRATA_BASE_URL: dropSite.url });
+    try {
+      expect((await call(off, "search_error", { text: "KeyError: 'zzz'" })).body.status).toBe("no_match");
+      const r = await call(drop, "search_error", { text: "KeyError: 'zzz'" });
+      expect(r).toMatchObject({ isError: false, body: { status: "no_match" } });
+      await new Promise((r) => setTimeout(r, 200));
+      expect(offLog.some((x) => x.url.endsWith("/v1/miss"))).toBe(false);
+      expect(dropLog.some((x) => x.url.endsWith("/v1/miss"))).toBe(true);                       // tried, failed quietly
+      expect((await call(drop, "check_package", { ecosystem: "pypi", package: "click", version: "8.5.0" })).body.status).toBe("found");
+    } finally {
+      await off.close(); await drop.close(); await offSite.close(); await dropSite.close();
+    }
+  });
 });

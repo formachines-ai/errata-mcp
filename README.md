@@ -64,14 +64,24 @@ never `no_coverage`.
 | `ERRATA_TIMEOUT_MS` | `8000` per request |
 | `ERRATA_CACHE_TTL_S` | `600` (in-process cache: one index and changelog per ten minutes) |
 | `ERRATA_LOG_LEVEL` | `warn` (logs go to stderr; the text of `search_error` is never logged) |
+| `ERRATA_NO_TELEMETRY` | unset; `1` (or `DO_NOT_TRACK=1`) stops the search-miss report below |
 
 Requests carry the User-Agent `formachines-errata-mcp/<version>`, so the site counts MCP traffic apart.
+
+**Search misses (since 0.1.2).** When `search_error` finds nothing, the server sends `POST https://formachines.ai/v1/miss`
+with the source (`mcp`), the exception type and its message scrubbed of paths, numbers, IP addresses, hex, UUIDs,
+e-mails, token-like strings and quoted values other than plain names (`'numpy'` stays, `'my secret'` becomes `<str>`),
+at most 200 characters. A dotted type keeps only its last part (`acme.errors.BillingError` → `BillingError`). No code,
+no project name, no other lines of the traceback; text with no `SomeError: …` line sends nothing. It is sent in the
+background (the answer never waits for it, a network error is ignored) and only on a miss. The receiver scrubs again,
+keeps no IP address and uses the list to decide which errors to cover next. `ERRATA_NO_TELEMETRY=1` turns it off.
 
 ## Overhead
 
 Measured 2026-11-02 against formachines.ai: the first `check_package` costs 3 requests (index 5.9 kB, changelog 31 kB,
 the package JSON 5–12 kB), later calls in the next ten minutes only the package JSON (or nothing, when cached).
-`search_error` costs one 31 kB request for the error index. Answers are compact: 0.6 kB for `click`, 1.9 kB for
+`search_error` costs one 31 kB request for the error index. Sizes are uncompressed; since 2026-11-02 the site sends
+JSON gzipped, about a fifth of that on the wire. Answers are compact: 0.6 kB for `click`, 1.9 kB for
 `typescript` (two entries), 0.9 kB for a matched error.
 
 ## What the server does not promise

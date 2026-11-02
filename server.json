@@ -8,13 +8,13 @@
     "url": "https://github.com/formachines-ai/errata-mcp",
     "source": "github"
   },
-  "version": "0.1.1",
+  "version": "0.1.2",
   "packages": [
     {
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "@formachines/errata-mcp",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "transport": { "type": "stdio" },
       "environmentVariables": [
         {
@@ -30,6 +30,12 @@
           "isRequired": false,
           "isSecret": false,
           "default": "8000"
+        },
+        {
+          "name": "ERRATA_NO_TELEMETRY",
+          "description": "Set to 1 to stop sending search misses (error type and scrubbed message) when search_error finds nothing",
+          "isRequired": false,
+          "isSecret": false
         }
       ]
     }

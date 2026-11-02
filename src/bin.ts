@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // errata-mcp: the Errata MCP server over stdio. Logs go to stderr (stdout is the protocol).
-// Environment: ERRATA_BASE_URL, ERRATA_FEEDBACK_URL, ERRATA_TIMEOUT_MS, ERRATA_CACHE_TTL_S, ERRATA_LOG_LEVEL (debug|info|warn|error).
+// Environment: ERRATA_BASE_URL, ERRATA_FEEDBACK_URL, ERRATA_TIMEOUT_MS, ERRATA_CACHE_TTL_S, ERRATA_LOG_LEVEL (debug|info|warn|error),
+// ERRATA_NO_TELEMETRY=1 (no search-miss reports).
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { ErrataClient, optionsFromEnv } from "./core/index.js";
 import { createServer, USER_AGENT } from "./server.js";

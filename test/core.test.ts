@@ -1,8 +1,10 @@
 import { describe, it, expect } from "vitest";
 import {
   ErrataClient, ErrataUnavailable, checkPackage, fromSpec, cmp, satisfies, searchError, planReport, sendReport,
-  tokens, assessEntry, Entry,
+  tokens, assessEntry, Entry, missPayload, normalizeMessage, telemetryOff, optionsFromEnv,
 } from "../src/core/index.js";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { snapshotFetch, downFetch, Recorded } from "./helpers.js";
 
 const UA = "formachines-errata-test/0.0.0";
@@ -155,5 +157,51 @@ describe("report", () => {
     expect(await planReport(c, "pypi/click/8.5.0/0099", "confirm")).toMatchObject({ ok: false, status: "unknown_entry" });
     expect(await planReport(c, "nope", "confirm")).toMatchObject({ ok: false, status: "invalid" });
     expect(await planReport(c, "pypi/click/8.5.0/0001", "maybe")).toMatchObject({ ok: false, status: "invalid" });
+  });
+});
+
+describe("search misses (D12b)", () => {
+  const fx = JSON.parse(readFileSync(join(__dirname, "fixtures", "miss-normalize.json"), "utf8"));
+  for (const c of fx.cases as { in: string; type: string | null; message: string | null }[]) {
+    it(`normalizes like the server: ${c.in.slice(0, 40).replace(/\n/g, " ")}`, () => {
+      const p = missPayload(c.in, "mcp");
+      expect(p).toEqual(c.type === null ? null : { source: "mcp", type: c.type, message: c.message });
+      if (p) expect(normalizeMessage(p.message)).toBe(p.message);
+    });
+  }
+
+  it("sends no path, secret, address or project name", () => {
+    const p = missPayload("Traceback (most recent call last):\n  File \"/home/alice/acme-billing/app.py\", line 3\n" +
+      "acme_billing.errors.BillingError: token=ghp_abcdefghijklmnop1234567890 for bob@acme.io at /srv/acme-billing/run.py:12 " +
+      "from 192.168.1.20:5432 id 0xdeadbeef 'user secret value'", "mcp")!;
+    expect(p.type).toBe("BillingError");
+    for (const leak of ["alice", "acme", "ghp_", "1234567890", "bob@", "/srv", "192.168", "deadbeef", "secret value", "5432"]) {
+      expect(p.message).not.toContain(leak);
+    }
+  });
+
+  it("ERRATA_NO_TELEMETRY=1 or DO_NOT_TRACK=1 sends nothing", async () => {
+    expect(telemetryOff({ ERRATA_NO_TELEMETRY: "1" })).toBe(true);
+    expect(telemetryOff({ DO_NOT_TRACK: "1" })).toBe(true);
+    expect(telemetryOff({ ERRATA_NO_TELEMETRY: "0" })).toBe(false);
+    expect(telemetryOff({})).toBe(false);
+    const log: Recorded[] = [];
+    const c = new ErrataClient({ ...optionsFromEnv(UA, { ERRATA_NO_TELEMETRY: "1" }), fetchImpl: snapshotFetch(log) });
+    expect(await c.reportMiss(missPayload("ImportError: x", "mcp"))).toBe(false);
+    expect(log).toEqual([]);
+  });
+
+  it("posts the payload with the client's User-Agent; a network failure resolves false, never throws", async () => {
+    const log: Recorded[] = [];
+    const c = client(log);
+    expect(await c.reportMiss(missPayload("ImportError: cannot import name 'x' from 'y'", "mcp"))).toBe(true);
+    expect(log).toHaveLength(1);
+    expect(log[0]).toMatchObject({ method: "POST", ua: UA });
+    expect(log[0].url).toMatch(/\/v1\/miss$/);
+    expect(JSON.parse(log[0].body!)).toEqual({ source: "mcp", type: "ImportError", message: "cannot import name 'x' from 'y'" });
+    expect(c.stats.requests).toBe(0);                                     // telemetry is not the cost of reading the base
+    const down = new ErrataClient({ userAgent: UA, fetchImpl: downFetch });
+    await expect(down.reportMiss(missPayload("ImportError: x", "mcp"))).resolves.toBe(false);
+    expect(await client().reportMiss(null)).toBe(false);
   });
 });

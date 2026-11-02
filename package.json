@@ -1,6 +1,6 @@
 {
   "name": "@formachines/errata-mcp",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "MCP server for Errata: sandbox-verified corrections where AI models write outdated code for PyPI and npm libraries",
   "mcpName": "ai.formachines/errata",
   "license": "MIT",
