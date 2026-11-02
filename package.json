@@ -1,0 +1,57 @@
+{
+  "name": "@formachines/errata-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for Errata: sandbox-verified corrections where AI models write outdated code for PyPI and npm libraries",
+  "mcpName": "ai.formachines/errata",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "errata-mcp": "dist/bin.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "server.json"
+  ],
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "errata",
+    "outdated-code",
+    "llm",
+    "pypi",
+    "npm",
+    "ai-agents"
+  ],
+  "homepage": "https://formachines.ai/errata/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/formachines-ai/errata-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/formachines-ai/errata-mcp/issues"
+  },
+  "author": "formachines.ai",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "esbuild src/bin.ts --bundle --platform=node --format=esm --target=node20 --external:@modelcontextprotocol/sdk --external:zod --outfile=dist/bin.js",
+    "typecheck": "tsc -p .",
+    "test": "vitest run",
+    "prepack": "npm run build",
+    "pretest": "npm run build",
+    "inspect:live": "zsh scripts/inspect-live.sh"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "esbuild": "^0.28.2",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "zod": "^4.6.7"
+  }
+}

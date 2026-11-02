@@ -1,0 +1,7 @@
+node_modules/
+dist/
+*.tgz
+
+# MCP registry signing key (owner publishes from here; never commit)
+key.pem
+*.pem

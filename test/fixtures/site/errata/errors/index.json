@@ -1,0 +1,1106 @@
+{
+ "counts": {
+  "errata": 25,
+  "packages": 18,
+  "signatures": 23,
+  "types": 4
+ },
+ "license": "https://creativecommons.org/licenses/by/4.0/",
+ "name": "Find the correction by the error text",
+ "packages": {
+  "npm/firebase": "https://formachines.ai/errata/npm/firebase/",
+  "npm/typeorm": "https://formachines.ai/errata/npm/typeorm/",
+  "npm/typescript": "https://formachines.ai/errata/npm/typescript/",
+  "pypi/click": "https://formachines.ai/errata/pypi/click/",
+  "pypi/cryptography": "https://formachines.ai/errata/pypi/cryptography/",
+  "pypi/huggingface-hub": "https://formachines.ai/errata/pypi/huggingface-hub/",
+  "pypi/joblib": "https://formachines.ai/errata/pypi/joblib/",
+  "pypi/mcp": "https://formachines.ai/errata/pypi/mcp/",
+  "pypi/more-itertools": "https://formachines.ai/errata/pypi/more-itertools/",
+  "pypi/networkx": "https://formachines.ai/errata/pypi/networkx/",
+  "pypi/oauthlib": "https://formachines.ai/errata/pypi/oauthlib/",
+  "pypi/opentelemetry-api": "https://formachines.ai/errata/pypi/opentelemetry-api/",
+  "pypi/opentelemetry-sdk": "https://formachines.ai/errata/pypi/opentelemetry-sdk/",
+  "pypi/pyopenssl": "https://formachines.ai/errata/pypi/pyopenssl/",
+  "pypi/scipy": "https://formachines.ai/errata/pypi/scipy/",
+  "pypi/typer": "https://formachines.ai/errata/pypi/typer/",
+  "pypi/websockets": "https://formachines.ai/errata/pypi/websockets/"
+ },
+ "search": {
+  "answers": "302 to the matching error page, entry or package; 200 with up to 5 candidates; 200 with a link to this index",
+  "field": "q",
+  "max_chars": 500,
+  "method": "GET",
+  "url": "https://formachines.ai/v1/search"
+ },
+ "signatures": [
+  {
+   "corrections": 2,
+   "entries": [
+    {
+     "ecosystem": "pypi",
+     "fails_on": "1.45.1",
+     "id": "pypi/opentelemetry-api/1.45.1/0002",
+     "package": "opentelemetry-api",
+     "status": "verified",
+     "symbol": "opentelemetry._events",
+     "url": "https://formachines.ai/errata/pypi/opentelemetry-api/0002-opentelemetry-events/"
+    },
+    {
+     "ecosystem": "pypi",
+     "fails_on": "1.45.1",
+     "id": "pypi/opentelemetry-sdk/1.45.1/0001",
+     "package": "opentelemetry-sdk",
+     "status": "verified",
+     "symbol": "opentelemetry.sdk._events",
+     "url": "https://formachines.ai/errata/pypi/opentelemetry-sdk/0001-opentelemetry-sdk-events/"
+    }
+   ],
+   "kind": "missing_module",
+   "kind_text": "module not found",
+   "messages": [
+    "No module named 'opentelemetry._events'"
+   ],
+   "norm": "missing_module:opentelemetry._events",
+   "packages": [
+    "pypi/opentelemetry-api",
+    "pypi/opentelemetry-sdk"
+   ],
+   "slug": "missing-module--opentelemetry-events",
+   "symbol": "opentelemetry._events",
+   "type": "ModuleNotFoundError",
+   "updated": "2026-10-30",
+   "url": "https://formachines.ai/errata/errors/missing-module--opentelemetry-events/"
+  },
+  {
+   "corrections": 2,
+   "entries": [
+    {
+     "ecosystem": "pypi",
+     "fails_on": "1.45.1",
+     "id": "pypi/opentelemetry-api/1.45.1/0001",
+     "package": "opentelemetry-api",
+     "status": "verified",
+     "symbol": "Logger.enabled",
+     "url": "https://formachines.ai/errata/pypi/opentelemetry-api/0001-logger-enabled/"
+    },
+    {
+     "ecosystem": "pypi",
+     "fails_on": "8.5.0",
+     "id": "pypi/click/8.5.0/0001",
+     "package": "click",
+     "status": "verified",
+     "symbol": "click.Parameter",
+     "url": "https://formachines.ai/errata/pypi/click/0001-click-parameter/"
+    },
+    {
+     "ecosystem": "pypi",
+     "fails_on": "1.45.1",
+     "id": "pypi/opentelemetry-exporter-otlp-proto-http/1.45.1/0001",
+     "package": "opentelemetry-exporter-otlp-proto-http",
+     "status": "merged",
+     "symbol": "Logger.enabled",
+     "url": "https://formachines.ai/errata/pypi/opentelemetry-exporter-otlp-proto-http/0001-logger-enabled/"
+    }
+   ],
+   "kind": "type_error",
+   "kind_text": "type error",
+   "messages": [
+    "Can't instantiate abstract class Parameter with abstract methods _parse_decls, add_to_parser",
+    "Can't instantiate abstract class InMemoryLogger with abstract method enabled"
+   ],
+   "norm": "type_error:",
+   "packages": [
+    "pypi/click",
+    "pypi/opentelemetry-api",
+    "pypi/opentelemetry-exporter-otlp-proto-http"
+   ],
+   "slug": "type-error",
+   "symbol": "",
+   "type": "TypeError",
+   "updated": "2026-10-30",
+   "url": "https://formachines.ai/errata/errors/type-error/"
+  },
+  {
+   "corrections": 1,
+   "entries": [
+    {
+     "ecosystem": "pypi",
+     "fails_on": "26.4.0",
+     "id": "pypi/pyopenssl/26.4.0/0003",
+     "package": "pyopenssl",
+     "status": "verified",
+     "symbol": "add_extensions",
+     "url": "https://formachines.ai/errata/pypi/pyopenssl/0003-openssl-crypto-x509extension/"
+    }
+   ],
+   "kind": "missing_attr",
+   "kind_text": "attribute missing",
+   "messages": [
+    "'X509' object has no attribute 'add_extensions'"
+   ],
+   "norm": "missing_attr:add_extensions",
+   "packages": [
+    "pypi/pyopenssl"
+   ],
+   "slug": "missing-attr--add-extensions",
+   "symbol": "add_extensions",
+   "type": "AttributeError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/missing-attr--add-extensions/"
+  },
+  {
+   "corrections": 1,
+   "entries": [
+    {
+     "ecosystem": "pypi",
+     "fails_on": "2.2.0",
+     "id": "pypi/huggingface-hub/2.2.0/0001",
+     "package": "huggingface-hub",
+     "status": "verified",
+     "symbol": "BucketUrl.handle",
+     "url": "https://formachines.ai/errata/pypi/huggingface-hub/0001-bucketurl-handle/"
+    }
+   ],
+   "kind": "missing_attr",
+   "kind_text": "attribute missing",
+   "messages": [
+    "'BucketUrl' object has no attribute 'handle'"
+   ],
+   "norm": "missing_attr:handle",
+   "packages": [
+    "pypi/huggingface-hub"
+   ],
+   "slug": "missing-attr--handle",
+   "symbol": "handle",
+   "type": "AttributeError",
+   "updated": "2026-10-30",
+   "url": "https://formachines.ai/errata/errors/missing-attr--handle/"
+  },
+  {
+   "corrections": 1,
+   "entries": [
+    {
+     "ecosystem": "pypi",
+     "fails_on": "3.7",
+     "id": "pypi/networkx/3.7/0001",
+     "package": "networkx",
+     "status": "verified",
+     "symbol": "random_lobster",
+     "url": "https://formachines.ai/errata/pypi/networkx/0001-random-lobster/"
+    }
+   ],
+   "kind": "missing_attr",
+   "kind_text": "attribute missing",
+   "messages": [
+    "module 'networkx' has no attribute 'random_lobster'"
+   ],
+   "norm": "missing_attr:random_lobster",
+   "packages": [
+    "pypi/networkx"
+   ],
+   "slug": "missing-attr--random-lobster",
+   "symbol": "random_lobster",
+   "type": "AttributeError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/missing-attr--random-lobster/"
+  },
+  {
+   "corrections": 1,
+   "entries": [
+    {
+     "ecosystem": "pypi",
+     "fails_on": "26.4.0",
+     "id": "pypi/pyopenssl/26.4.0/0002",
+     "package": "pyopenssl",
+     "status": "verified",
+     "symbol": "X509Extension",
+     "url": "https://formachines.ai/errata/pypi/pyopenssl/0002-openssl-crypto-x509extension/"
+    }
+   ],
+   "kind": "missing_attr",
+   "kind_text": "attribute missing",
+   "messages": [
+    "module 'OpenSSL.crypto' has no attribute 'X509Extension'"
+   ],
+   "norm": "missing_attr:x509extension",
+   "packages": [
+    "pypi/pyopenssl"
+   ],
+   "slug": "missing-attr--x509extension",
+   "symbol": "x509extension",
+   "type": "AttributeError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/missing-attr--x509extension/"
+  },
+  {
+   "corrections": 1,
+   "entries": [
+    {
+     "ecosystem": "pypi",
+     "fails_on": "26.4.0",
+     "id": "pypi/pyopenssl/26.4.0/0004",
+     "package": "pyopenssl",
+     "status": "verified",
+     "symbol": "X509Req",
+     "url": "https://formachines.ai/errata/pypi/pyopenssl/0004-x509req/"
+    }
+   ],
+   "kind": "missing_attr",
+   "kind_text": "attribute missing",
+   "messages": [
+    "module 'OpenSSL.crypto' has no attribute 'X509Req'"
+   ],
+   "norm": "missing_attr:x509req",
+   "packages": [
+    "pypi/pyopenssl"
+   ],
+   "slug": "missing-attr--x509req",
+   "symbol": "x509req",
+   "type": "AttributeError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/missing-attr--x509req/"
+  },
+  {
+   "corrections": 1,
+   "entries": [
+    {
+     "ecosystem": "pypi",
+     "fails_on": "11.2.1",
+     "id": "pypi/more-itertools/11.2.1/0002",
+     "package": "more-itertools",
+     "status": "verified",
+     "symbol": "zip_equal",
+     "url": "https://formachines.ai/errata/pypi/more-itertools/0002-zip-equal/"
+    }
+   ],
+   "kind": "missing_attr",
+   "kind_text": "attribute missing",
+   "messages": [
+    "module 'more_itertools' has no attribute 'zip_equal'. Did you mean: 'all_equal'?"
+   ],
+   "norm": "missing_attr:zip_equal",
+   "packages": [
+    "pypi/more-itertools"
+   ],
+   "slug": "missing-attr--zip-equal",
+   "symbol": "zip_equal",
+   "type": "AttributeError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/missing-attr--zip-equal/"
+  },
+  {
+   "corrections": 1,
+   "entries": [
+    {
+     "ecosystem": "pypi",
+     "fails_on": "0.27.3",
+     "id": "pypi/typer/0.27.3/0001",
+     "package": "typer",
+     "status": "verified",
+     "symbol": "click",
+     "url": "https://formachines.ai/errata/pypi/typer/0001-click/"
+    }
+   ],
+   "kind": "missing_import",
+   "kind_text": "name cannot be imported",
+   "messages": [
+    "cannot import name 'click' from 'typer.main'"
+   ],
+   "norm": "missing_import:click",
+   "packages": [
+    "pypi/typer"
+   ],
+   "slug": "missing-import--click",
+   "symbol": "click",
+   "type": "ImportError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/missing-import--click/"
+  },
+  {
+   "corrections": 1,
+   "entries": [
+    {
+     "ecosystem": "pypi",
+     "fails_on": "1.6.0",
+     "id": "pypi/joblib/1.6.0/0002",
+     "package": "joblib",
+     "status": "verified",
+     "symbol": "joblib.externals.cloudpickle",
+     "url": "https://formachines.ai/errata/pypi/joblib/0002-joblib-externals-cloudpickle/"
+    }
+   ],
+   "kind": "missing_import",
+   "kind_text": "name cannot be imported",
+   "messages": [
+    "cannot import name 'cloudpickle' from 'joblib.externals'"
+   ],
+   "norm": "missing_import:cloudpickle",
+   "packages": [
+    "pypi/joblib"
+   ],
+   "slug": "missing-import--cloudpickle",
+   "symbol": "cloudpickle",
+   "type": "ImportError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/missing-import--cloudpickle/"
+  },
+  {
+   "corrections": 1,
+   "entries": [
+    {
+     "ecosystem": "pypi",
+     "fails_on": "17.3",
+     "id": "pypi/websockets/17.3/0001",
+     "package": "websockets",
+     "status": "verified",
+     "symbol": "OP_TEXT",
+     "url": "https://formachines.ai/errata/pypi/websockets/0001-op-text/"
+    }
+   ],
+   "kind": "missing_import",
+   "kind_text": "name cannot be imported",
+   "messages": [
+    "cannot import name 'OP_TEXT' from 'websockets.frames'"
+   ],
+   "norm": "missing_import:op_text",
+   "packages": [
+    "pypi/websockets"
+   ],
+   "slug": "missing-import--op-text",
+   "symbol": "op_text",
+   "type": "ImportError",
+   "updated": "2026-11-01",
+   "url": "https://formachines.ai/errata/errors/missing-import--op-text/"
+  },
+  {
+   "corrections": 1,
+   "entries": [
+    {
+     "ecosystem": "pypi",
+     "fails_on": "50.0.2",
+     "id": "pypi/cryptography/50.0.2/0001",
+     "package": "cryptography",
+     "status": "verified",
+     "symbol": "PUBLIC_KEY_TYPES",
+     "url": "https://formachines.ai/errata/pypi/cryptography/0001-public-key-types/"
+    }
+   ],
+   "kind": "missing_import",
+   "kind_text": "name cannot be imported",
+   "messages": [
+    "cannot import name 'PUBLIC_KEY_TYPES' from 'cryptography.hazmat.primitives.asymmetric.types'"
+   ],
+   "norm": "missing_import:public_key_types",
+   "packages": [
+    "pypi/cryptography"
+   ],
+   "slug": "missing-import--public-key-types",
+   "symbol": "public_key_types",
+   "type": "ImportError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/missing-import--public-key-types/"
+  },
+  {
+   "corrections": 1,
+   "entries": [
+    {
+     "ecosystem": "pypi",
+     "fails_on": "2.3.0",
+     "id": "pypi/mcp/2.3.0/0002",
+     "package": "mcp",
+     "status": "verified",
+     "symbol": "mcp.shared.session",
+     "url": "https://formachines.ai/errata/pypi/mcp/0002-mcp-shared-session/"
+    }
+   ],
+   "kind": "missing_import",
+   "kind_text": "name cannot be imported",
+   "messages": [
+    "cannot import name 'session' from 'mcp.shared'"
+   ],
+   "norm": "missing_import:session",
+   "packages": [
+    "pypi/mcp"
+   ],
+   "slug": "missing-import--session",
+   "symbol": "session",
+   "type": "ImportError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/missing-import--session/"
+  },
+  {
+   "corrections": 1,
+   "entries": [
+    {
+     "ecosystem": "pypi",
+     "fails_on": "2.3.0",
+     "id": "pypi/mcp/2.3.0/0005",
+     "package": "mcp",
+     "status": "verified",
+     "symbol": "FastMCP",
+     "url": "https://formachines.ai/errata/pypi/mcp/0005-context-client-id/"
+    }
+   ],
+   "kind": "missing_module",
+   "kind_text": "module not found",
+   "messages": [
+    "No module named 'mcp.server.fastmcp'. This is mcp 2.x, where FastMCP was renamed to MCPServer (from mcp.server.mcpserver import MCPServer) and other APIs changed; see the migration guide at https://py.sdk.modelcontextprotocol.io/v2/migration/#fastmcp-renamed-to-mcpserver or pin 'mcp<2' to keep runni"
+   ],
+   "norm": "missing_module:mcp.server.fastmcp",
+   "packages": [
+    "pypi/mcp"
+   ],
+   "slug": "missing-module--mcp-server-fastmcp",
+   "symbol": "mcp.server.fastmcp",
+   "type": "ModuleNotFoundError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/missing-module--mcp-server-fastmcp/"
+  },
+  {
+   "corrections": 1,
+   "entries": [
+    {
+     "ecosystem": "pypi",
+     "fails_on": "1.18.1",
+     "id": "pypi/scipy/1.18.1/0001",
+     "package": "scipy",
+     "status": "verified",
+     "symbol": "scipy.optimize.nnls",
+     "url": "https://formachines.ai/errata/pypi/scipy/0001-scipy-optimize-nnls/"
+    }
+   ],
+   "kind": "unexpected_kwarg",
+   "kind_text": "unexpected keyword argument",
+   "messages": [
+    "nnls() got an unexpected keyword argument 'atol'"
+   ],
+   "norm": "unexpected_kwarg:atol",
+   "packages": [
+    "pypi/scipy"
+   ],
+   "slug": "unexpected-kwarg--atol",
+   "symbol": "atol",
+   "type": "TypeError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/unexpected-kwarg--atol/"
+  },
+  {
+   "corrections": 1,
+   "entries": [
+    {
+     "ecosystem": "npm",
+     "fails_on": "7.0.2",
+     "id": "npm/typescript/7.0.2/0004",
+     "package": "typescript",
+     "status": "verified",
+     "symbol": "ts.ModuleKind",
+     "url": "https://formachines.ai/errata/npm/typescript/0004-moduleresolution-node/"
+    }
+   ],
+   "kind": "undefined_prop",
+   "kind_text": "property of undefined",
+   "messages": [
+    "Cannot read properties of undefined (reading 'CommonJS')"
+   ],
+   "norm": "undefined_prop:commonjs",
+   "packages": [
+    "npm/typescript"
+   ],
+   "slug": "undefined-prop--commonjs",
+   "symbol": "commonjs",
+   "type": "TypeError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/undefined-prop--commonjs/"
+  },
+  {
+   "corrections": 1,
+   "entries": [
+    {
+     "ecosystem": "npm",
+     "fails_on": "1.1.2",
+     "id": "npm/typeorm/1.1.2/0001",
+     "package": "typeorm",
+     "status": "verified",
+     "symbol": "Connection",
+     "url": "https://formachines.ai/errata/npm/typeorm/0001-connection/"
+    }
+   ],
+   "kind": "not_constructor",
+   "kind_text": "is not a constructor",
+   "messages": [
+    "Connection is not a constructor"
+   ],
+   "norm": "not_constructor:connection",
+   "packages": [
+    "npm/typeorm"
+   ],
+   "slug": "not-constructor--connection",
+   "symbol": "connection",
+   "type": "TypeError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/not-constructor--connection/"
+  },
+  {
+   "corrections": 1,
+   "entries": [
+    {
+     "ecosystem": "pypi",
+     "fails_on": "1.18.1",
+     "id": "pypi/scipy/1.18.1/0003",
+     "package": "scipy",
+     "status": "verified",
+     "symbol": "scipy.linalg.sqrtm",
+     "url": "https://formachines.ai/errata/pypi/scipy/0003-scipy-linalg-sqrtm/"
+    }
+   ],
+   "kind": "unexpected_kwarg",
+   "kind_text": "unexpected keyword argument",
+   "messages": [
+    "sqrtm() got an unexpected keyword argument 'disp'"
+   ],
+   "norm": "unexpected_kwarg:disp",
+   "packages": [
+    "pypi/scipy"
+   ],
+   "slug": "unexpected-kwarg--disp",
+   "symbol": "disp",
+   "type": "TypeError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/unexpected-kwarg--disp/"
+  },
+  {
+   "corrections": 1,
+   "entries": [
+    {
+     "ecosystem": "pypi",
+     "fails_on": "4.0.0",
+     "id": "pypi/oauthlib/4.0.0/0001",
+     "package": "oauthlib",
+     "status": "verified",
+     "symbol": "RevocationEndpoint",
+     "url": "https://formachines.ai/errata/pypi/oauthlib/0001-revocationendpoint/"
+    }
+   ],
+   "kind": "unexpected_kwarg",
+   "kind_text": "unexpected keyword argument",
+   "messages": [
+    "RevocationEndpoint.__init__() got an unexpected keyword argument 'enable_jsonp'"
+   ],
+   "norm": "unexpected_kwarg:enable_jsonp",
+   "packages": [
+    "pypi/oauthlib"
+   ],
+   "slug": "unexpected-kwarg--enable-jsonp",
+   "symbol": "enable_jsonp",
+   "type": "TypeError",
+   "updated": "2026-11-01",
+   "url": "https://formachines.ai/errata/errors/unexpected-kwarg--enable-jsonp/"
+  },
+  {
+   "corrections": 1,
+   "entries": [
+    {
+     "ecosystem": "npm",
+     "fails_on": "7.0.2",
+     "id": "npm/typescript/7.0.2/0001",
+     "package": "typescript",
+     "status": "verified",
+     "symbol": "ts.ScriptTarget",
+     "url": "https://formachines.ai/errata/npm/typescript/0001-baseurl/"
+    }
+   ],
+   "kind": "undefined_prop",
+   "kind_text": "property of undefined",
+   "messages": [
+    "Cannot read properties of undefined (reading 'ES2020')"
+   ],
+   "norm": "undefined_prop:es2020",
+   "packages": [
+    "npm/typescript"
+   ],
+   "slug": "undefined-prop--es2020",
+   "symbol": "es2020",
+   "type": "TypeError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/undefined-prop--es2020/"
+  },
+  {
+   "corrections": 1,
+   "entries": [
+    {
+     "ecosystem": "npm",
+     "fails_on": "13.1.0",
+     "id": "npm/firebase/13.1.0/0003",
+     "package": "firebase",
+     "status": "verified",
+     "symbol": "getImagenModel",
+     "url": "https://formachines.ai/errata/npm/firebase/0003-getimagenmodel/"
+    }
+   ],
+   "kind": "not_function",
+   "kind_text": "is not a function",
+   "messages": [
+    "getImagenModel is not a function"
+   ],
+   "norm": "not_function:getimagenmodel",
+   "packages": [
+    "npm/firebase"
+   ],
+   "slug": "not-function--getimagenmodel",
+   "symbol": "getimagenmodel",
+   "type": "TypeError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/not-function--getimagenmodel/"
+  },
+  {
+   "corrections": 1,
+   "entries": [
+    {
+     "ecosystem": "pypi",
+     "fails_on": "2.3.0",
+     "id": "pypi/mcp/2.3.0/0003",
+     "package": "mcp",
+     "status": "verified",
+     "symbol": "scopes",
+     "url": "https://formachines.ai/errata/pypi/mcp/0003-scopes/"
+    }
+   ],
+   "kind": "unexpected_kwarg",
+   "kind_text": "unexpected keyword argument",
+   "messages": [
+    "ClientCredentialsOAuthProvider.__init__() got an unexpected keyword argument 'scopes'"
+   ],
+   "norm": "unexpected_kwarg:scopes",
+   "packages": [
+    "pypi/mcp"
+   ],
+   "slug": "unexpected-kwarg--scopes",
+   "symbol": "scopes",
+   "type": "TypeError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/unexpected-kwarg--scopes/"
+  },
+  {
+   "corrections": 1,
+   "entries": [
+    {
+     "ecosystem": "npm",
+     "fails_on": "13.1.0",
+     "id": "npm/firebase/13.1.0/0001",
+     "package": "firebase",
+     "status": "verified",
+     "symbol": "VertexAIBackend",
+     "url": "https://formachines.ai/errata/npm/firebase/0001-vertexaibackend/"
+    }
+   ],
+   "kind": "not_constructor",
+   "kind_text": "is not a constructor",
+   "messages": [
+    "VertexAIBackend is not a constructor"
+   ],
+   "norm": "not_constructor:vertexaibackend",
+   "packages": [
+    "npm/firebase"
+   ],
+   "slug": "not-constructor--vertexaibackend",
+   "symbol": "vertexaibackend",
+   "type": "TypeError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/not-constructor--vertexaibackend/"
+  },
+  {
+   "corrections": 0,
+   "entries": [
+    {
+     "ecosystem": "pypi",
+     "fails_on": "0.27.3",
+     "id": "pypi/typer/0.27.3/0002",
+     "package": "typer",
+     "status": "retracted",
+     "symbol": "click",
+     "url": "https://formachines.ai/errata/pypi/typer/0002-click/"
+    }
+   ],
+   "kind": "missing_attr",
+   "kind_text": "attribute missing",
+   "messages": [
+    "module 'typer.core' has no attribute 'click'. Did you mean: '_click'?"
+   ],
+   "norm": "missing_attr:click",
+   "packages": [
+    "pypi/typer"
+   ],
+   "slug": "missing-attr--click",
+   "symbol": "click",
+   "type": "AttributeError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/missing-attr--click/"
+  },
+  {
+   "corrections": 0,
+   "entries": [
+    {
+     "ecosystem": "pypi",
+     "fails_on": "13.0.0",
+     "id": "pypi/pillow/13.0.0/0001",
+     "package": "pillow",
+     "status": "retracted",
+     "symbol": "ImageCms.ImageCmsProfile.product_name",
+     "url": "https://formachines.ai/errata/pypi/pillow/0001-imagecms-imagecmsprofile-product-name/"
+    }
+   ],
+   "kind": "missing_attr",
+   "kind_text": "attribute missing",
+   "messages": [
+    "'ImageCmsProfile' object has no attribute 'product_name'"
+   ],
+   "norm": "missing_attr:product_name",
+   "packages": [
+    "pypi/pillow"
+   ],
+   "slug": "missing-attr--product-name",
+   "symbol": "product_name",
+   "type": "AttributeError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/missing-attr--product-name/"
+  },
+  {
+   "corrections": 0,
+   "entries": [
+    {
+     "ecosystem": "pypi",
+     "fails_on": "50.0.2",
+     "id": "pypi/cryptography/50.0.2/0002",
+     "package": "cryptography",
+     "status": "retracted",
+     "symbol": "ec.SECT283K1",
+     "url": "https://formachines.ai/errata/pypi/cryptography/0002-ec-sect283k1/"
+    }
+   ],
+   "kind": "missing_attr",
+   "kind_text": "attribute missing",
+   "messages": [
+    "module 'cryptography.hazmat.primitives.asymmetric.ec' has no attribute 'SECT283K1'. Did you mean: 'SECP256K1'?"
+   ],
+   "norm": "missing_attr:sect283k1",
+   "packages": [
+    "pypi/cryptography"
+   ],
+   "slug": "missing-attr--sect283k1",
+   "symbol": "sect283k1",
+   "type": "AttributeError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/missing-attr--sect283k1/"
+  },
+  {
+   "corrections": 0,
+   "entries": [
+    {
+     "ecosystem": "pypi",
+     "fails_on": "1.18.1",
+     "id": "pypi/scipy/1.18.1/0002",
+     "package": "scipy",
+     "status": "retracted",
+     "symbol": "shape",
+     "url": "https://formachines.ai/errata/pypi/scipy/0002-shape/"
+    }
+   ],
+   "kind": "missing_attr",
+   "kind_text": "attribute missing",
+   "messages": [
+    "'tuple' object has no attribute 'shape'"
+   ],
+   "norm": "missing_attr:shape",
+   "packages": [
+    "pypi/scipy"
+   ],
+   "slug": "missing-attr--shape",
+   "symbol": "shape",
+   "type": "AttributeError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/missing-attr--shape/"
+  },
+  {
+   "corrections": 0,
+   "entries": [
+    {
+     "ecosystem": "pypi",
+     "fails_on": "2.3.0",
+     "id": "pypi/mcp/2.3.0/0006",
+     "package": "mcp",
+     "status": "retracted",
+     "symbol": "mcp.shared.session",
+     "url": "https://formachines.ai/errata/pypi/mcp/0006-mcp-shared-session/"
+    }
+   ],
+   "kind": "missing_import",
+   "kind_text": "name cannot be imported",
+   "messages": [
+    "cannot import name 'BaseSession' from 'mcp'"
+   ],
+   "norm": "missing_import:basesession",
+   "packages": [
+    "pypi/mcp"
+   ],
+   "slug": "missing-import--basesession",
+   "symbol": "basesession",
+   "type": "ImportError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/missing-import--basesession/"
+  },
+  {
+   "corrections": 0,
+   "entries": [
+    {
+     "ecosystem": "pypi",
+     "fails_on": "3.35.1",
+     "id": "pypi/openai/3.35.1/0001",
+     "package": "openai",
+     "status": "retracted",
+     "symbol": "httpx",
+     "url": "https://formachines.ai/errata/pypi/openai/0001-httpx/"
+    }
+   ],
+   "kind": "missing_import",
+   "kind_text": "name cannot be imported",
+   "messages": [
+    "cannot import name 'httpx' from 'openai._base_client'"
+   ],
+   "norm": "missing_import:httpx",
+   "packages": [
+    "pypi/openai"
+   ],
+   "slug": "missing-import--httpx",
+   "symbol": "httpx",
+   "type": "ImportError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/missing-import--httpx/"
+  },
+  {
+   "corrections": 0,
+   "entries": [
+    {
+     "ecosystem": "pypi",
+     "fails_on": "11.2.1",
+     "id": "pypi/more-itertools/11.2.1/0001",
+     "package": "more-itertools",
+     "status": "merged",
+     "symbol": "zip_equal",
+     "url": "https://formachines.ai/errata/pypi/more-itertools/0001-zip-equal/"
+    }
+   ],
+   "kind": "missing_import",
+   "kind_text": "name cannot be imported",
+   "messages": [
+    "cannot import name 'zip_equal' from 'more_itertools'"
+   ],
+   "norm": "missing_import:zip_equal",
+   "packages": [
+    "pypi/more-itertools"
+   ],
+   "slug": "missing-import--zip-equal",
+   "symbol": "zip_equal",
+   "type": "ImportError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/missing-import--zip-equal/"
+  },
+  {
+   "corrections": 0,
+   "entries": [
+    {
+     "ecosystem": "pypi",
+     "fails_on": "1.6.0",
+     "id": "pypi/joblib/1.6.0/0001",
+     "package": "joblib",
+     "status": "merged",
+     "symbol": "joblib.externals.cloudpickle",
+     "url": "https://formachines.ai/errata/pypi/joblib/0001-joblib-externals-cloudpickle/"
+    }
+   ],
+   "kind": "missing_module",
+   "kind_text": "module not found",
+   "messages": [
+    "No module named 'joblib._cloudpickle'"
+   ],
+   "norm": "missing_module:joblib._cloudpickle",
+   "packages": [
+    "pypi/joblib"
+   ],
+   "slug": "missing-module--joblib-cloudpickle",
+   "symbol": "joblib._cloudpickle",
+   "type": "ModuleNotFoundError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/missing-module--joblib-cloudpickle/"
+  },
+  {
+   "corrections": 0,
+   "entries": [
+    {
+     "ecosystem": "pypi",
+     "fails_on": "2.3.0",
+     "id": "pypi/mcp/2.3.0/0001",
+     "package": "mcp",
+     "status": "retracted",
+     "symbol": "mcp.shared.session",
+     "url": "https://formachines.ai/errata/pypi/mcp/0001-mcp-shared-session/"
+    }
+   ],
+   "kind": "missing_module",
+   "kind_text": "module not found",
+   "messages": [
+    "No module named 'mcp.shared.session'"
+   ],
+   "norm": "missing_module:mcp.shared.session",
+   "packages": [
+    "pypi/mcp"
+   ],
+   "slug": "missing-module--mcp-shared-session",
+   "symbol": "mcp.shared.session",
+   "type": "ModuleNotFoundError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/missing-module--mcp-shared-session/"
+  },
+  {
+   "corrections": 0,
+   "entries": [
+    {
+     "ecosystem": "pypi",
+     "fails_on": "2.5.4",
+     "id": "pypi/numpy/2.5.4/0001",
+     "package": "numpy",
+     "status": "retracted",
+     "symbol": "numpy.distutils",
+     "url": "https://formachines.ai/errata/pypi/numpy/0001-numpy-distutils/"
+    }
+   ],
+   "kind": "missing_module",
+   "kind_text": "module not found",
+   "messages": [
+    "No module named 'numpy.distutils'"
+   ],
+   "norm": "missing_module:numpy.distutils",
+   "packages": [
+    "pypi/numpy"
+   ],
+   "slug": "missing-module--numpy-distutils",
+   "symbol": "numpy.distutils",
+   "type": "ModuleNotFoundError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/missing-module--numpy-distutils/"
+  },
+  {
+   "corrections": 0,
+   "entries": [
+    {
+     "ecosystem": "npm",
+     "fails_on": "7.0.2",
+     "id": "npm/typescript/7.0.2/0003",
+     "package": "typescript",
+     "status": "merged",
+     "symbol": "moduleResolution: node",
+     "url": "https://formachines.ai/errata/npm/typescript/0003-moduleresolution-node/"
+    }
+   ],
+   "kind": "undefined_prop",
+   "kind_text": "property of undefined",
+   "messages": [
+    "Cannot read properties of undefined (reading 'Node10')"
+   ],
+   "norm": "undefined_prop:node10",
+   "packages": [
+    "npm/typescript"
+   ],
+   "slug": "undefined-prop--node10",
+   "symbol": "node10",
+   "type": "TypeError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/undefined-prop--node10/"
+  },
+  {
+   "corrections": 0,
+   "entries": [
+    {
+     "ecosystem": "npm",
+     "fails_on": "13.1.0",
+     "id": "npm/firebase/13.1.0/0002",
+     "package": "firebase",
+     "status": "retracted",
+     "symbol": "LiveSession.sendMediaChunks",
+     "url": "https://formachines.ai/errata/npm/firebase/0002-livesession-sendmediachunks/"
+    }
+   ],
+   "kind": "not_function",
+   "kind_text": "is not a function",
+   "messages": [
+    "session.sendMediaChunks is not a function"
+   ],
+   "norm": "not_function:session.sendmediachunks",
+   "packages": [
+    "npm/firebase"
+   ],
+   "slug": "not-function--session-sendmediachunks",
+   "symbol": "session.sendmediachunks",
+   "type": "TypeError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/not-function--session-sendmediachunks/"
+  },
+  {
+   "corrections": 0,
+   "entries": [
+    {
+     "ecosystem": "npm",
+     "fails_on": "7.0.2",
+     "id": "npm/typescript/7.0.2/0002",
+     "package": "typescript",
+     "status": "retracted",
+     "symbol": "ts.convertCompilerOptionsFromJson",
+     "url": "https://formachines.ai/errata/npm/typescript/0002-ts-convertcompileroptionsfromjson/"
+    }
+   ],
+   "kind": "not_function",
+   "kind_text": "is not a function",
+   "messages": [
+    "ts.convertCompilerOptionsFromJson is not a function"
+   ],
+   "norm": "not_function:ts.convertcompileroptionsfromjson",
+   "packages": [
+    "npm/typescript"
+   ],
+   "slug": "not-function--ts-convertcompileroptionsfromjson",
+   "symbol": "ts.convertcompileroptionsfromjson",
+   "type": "TypeError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/not-function--ts-convertcompileroptionsfromjson/"
+  },
+  {
+   "corrections": 0,
+   "entries": [
+    {
+     "ecosystem": "npm",
+     "fails_on": "7.0.2",
+     "id": "npm/typescript/7.0.2/0013",
+     "package": "typescript",
+     "status": "retracted",
+     "symbol": "ts.transpileModule",
+     "url": "https://formachines.ai/errata/npm/typescript/0013-ts-transpilemodule/"
+    }
+   ],
+   "kind": "not_function",
+   "kind_text": "is not a function",
+   "messages": [
+    "ts.transpileModule is not a function"
+   ],
+   "norm": "not_function:ts.transpilemodule",
+   "packages": [
+    "npm/typescript"
+   ],
+   "slug": "not-function--ts-transpilemodule",
+   "symbol": "ts.transpilemodule",
+   "type": "TypeError",
+   "updated": "2026-10-27",
+   "url": "https://formachines.ai/errata/errors/not-function--ts-transpilemodule/"
+  }
+ ],
+ "updated": "2026-11-01"
+}
