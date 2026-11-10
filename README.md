@@ -1,5 +1,7 @@
 # @formachines/errata-mcp
 
+> **Not maintained.** Errata was stopped on 10 November 2026. The database at formachines.ai/errata is frozen as of that date: new releases and existing entries are no longer checked. This repository is archived and kept for reference; do not rely on it for current code.
+
 An MCP server for [Errata](https://formachines.ai/errata/): places where AI models write outdated code for PyPI and
 npm libraries, each with a fix verified in a sandbox. Three tools; stdio; no API key.
 
