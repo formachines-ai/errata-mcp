@@ -6,7 +6,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import {
   ErrataClient, ErrataUnavailable, PackageResult, checkPackage, installedFromArg, planReport, sendReport,
-  searchError, missPayload, MAX_NOTE,
+  searchError, missPayload, summarize, summaryLines, MAX_NOTE,
 } from "./core/index.js";
 import { VERSION } from "./version.js";
 
@@ -36,10 +36,11 @@ export function packageStatus(r: PackageResult): string {
 export function compactPackage(r: PackageResult) {
   return {
     status: packageStatus(r),
+    summary: summaryLines(summarize([r])),            // FB-4: the same five lines as the CLI, and the closing note
     package: `${r.ecosystem}/${r.package}`,
     installed: r.installed.kind === "exact" ? r.installed.version : r.installed.kind === "range" ? `range ${r.installed.spec}` : "unknown",
     entries: r.entries.map((e) => ({
-      id: e.id, verdict: e.verdict, grade: e.grade, reason: e.reason, symbol: e.symbol, wrong: e.wrong, right: e.right,
+      id: e.id, verdict: e.verdict, readiness: e.readiness, grade: e.grade, reason: e.reason, symbol: e.symbol, wrong: e.wrong, right: e.right,
       detect: e.detect, error: e.error, fails_on: e.fails_on, verified_on: e.verified_on, url: e.url,
     })),
     ...(r.excluded.length ? { not_offered: r.excluded.map((x) => ({ id: x.id, status: x.status, ...(x.target ? { into: x.target } : {}) })) } : {}),
@@ -55,7 +56,7 @@ export function createServer(client: ErrataClient, log: Log = () => {}): McpServ
     description: "Corrections for a PyPI or npm package where AI models write outdated code, each verified in a sandbox, " +
       "with verdict apply / lead / none for the installed version and the reason. Apply on your own only verdict apply " +
       "(checked on the installed version, proof.auto_apply true); show a lead to the user, a newer version than the " +
-      "checked ones included.",
+      "checked ones included. readiness: patch, partial or lead. Opens with a five-line summary.",
     inputSchema: {
       ecosystem: z.enum(["pypi", "npm"]),
       package: z.string().min(1).max(214),

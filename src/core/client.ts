@@ -228,7 +228,10 @@ export interface Entry {
   detect?: string[];
   error_signature?: { type?: string; message?: string; norm?: string } | null;
   versions: { fails_on: string; works_on?: string; changed_in?: string; checked_on?: string[] };
-  proof: { auto_apply?: boolean; auto_apply_reason?: string; fails_on?: string; works_on?: string };
+  proof: { auto_apply?: boolean; auto_apply_reason?: string; fails_on?: string; works_on?: string;
+    applicability?: { status?: string; reason?: string } };
+  /** FB-1 (site 2026-11-09): patch / partial / lead; withdrawn / merged on notice pages. Older JSON: derived. */
+  readiness?: string;
   confirmations?: { worked: number; failed: number };
 }
 

@@ -3,6 +3,12 @@
 An MCP server for [Errata](https://formachines.ai/errata/): places where AI models write outdated code for PyPI and
 npm libraries, each with a fix verified in a sandbox. Three tools; stdio; no API key.
 
+| | |
+|---|---|
+| Executes fix examples | never |
+| Reads | no files: the agent passes the package, version or error text to a tool (the CLI `@formachines/errata` reads lockfiles and manifests) |
+| Sends | package names to fetch entries; search misses to `/v1/miss` (off: `ERRATA_NO_TELEMETRY=1`, details below); `report` only when the agent calls it |
+
 ## Install
 
 Claude Code:
@@ -31,16 +37,35 @@ Node 20 or newer. Registry name: `ai.formachines/errata`.
 | `search_error` | `text`: an error line, a traceback, or an entry id | `found` · `candidates` · `no_match` · `technical_error` |
 | `report` | `id`, `verdict` (`confirm`/`dispute`), `note` (≤ 500 characters) | `received` · `merged` · `withdrawn` · `unknown_entry` · `invalid` · `rejected` · `technical_error` |
 
-Each entry in an answer carries `verdict` (`apply` / `lead` / `none`), `grade` (`verified` / `possible` /
-`not_affected` / `unknown`), `reason`, `wrong`, `right`, `detect`, `error`, `fails_on`, `verified_on`, `url`.
+A `check_package` answer opens with `summary`, five lines and a note (since 0.1.3, the same as the CLI): dependencies
+asked about and whether the version is exact; whether Errata covers the package; the entries that match the version,
+by readiness (`patch`: the short patch applies word for word; `partial`: it covers part of the change; `lead`: it does
+not apply word for word, the entry has a full example that works); how many need a person (confirm the code uses the
+changed name, `detect`, before applying; decide on a lead); not covered; and *No match does not mean your project is
+free of such errors.*
 
-Example, `check_package {"ecosystem":"pypi","package":"click","version":"8.5.0"}` against the live base:
+Each entry in an answer carries `verdict` (`apply` / `lead` / `none`), `readiness` (`patch` / `partial` / `lead`),
+`grade` (`verified` / `possible` / `not_affected` / `unknown`), `reason`, `wrong`, `right`, `detect`, `error`,
+`fails_on`, `verified_on`, `url`.
+
+Example, `check_package {"ecosystem":"pypi","package":"click","version":"8.5.0"}` against the live base (2026-11-09):
 
 ```json
-{"status":"found","package":"pypi/click","installed":"8.5.0","entries":[{"id":"pypi/click/8.5.0/0001","verdict":"apply","grade":"verified","reason":"checked on click 8.5.0; installed 8.5.0; proof.auto_apply true","symbol":"click.Parameter","wrong":"parameter = click.Parameter([\"--x\"])","right":"parameter = click.Option([\"--x\"])","detect":["click.Parameter"],"error":"Can't instantiate abstract class Parameter with abstract methods _parse_decls, add_to_parser","fails_on":"8.5.0","verified_on":["8.5.0"],"url":"https://formachines.ai/errata/pypi/click/0001-click-parameter/"}]}
+{"status":"found","summary":["Dependencies found: 1, 1 with an exact version","In Errata: 1 of them","Match your versions: 1 entry — 1 patch, 0 partial, 0 lead","Need a person: 1 to apply once your code is seen to use the changed name (detect), 0 for a manual decision (lead)","Not covered: 0 dependencies","No match does not mean your project is free of such errors."],"package":"pypi/click","installed":"8.5.0","entries":[{"id":"pypi/click/8.5.0/0001","verdict":"apply","readiness":"patch","grade":"verified","reason":"checked on click 8.5.0, 8.5.1; installed 8.5.0; proof.auto_apply true","symbol":"click.Parameter","wrong":"parameter = click.Parameter([\"--x\"])","right":"parameter = click.Option([\"--x\"])","detect":["click.Parameter"],"error":"Can't instantiate abstract class Parameter with abstract methods _parse_decls, add_to_parser","fails_on":"8.5.0","verified_on":["8.5.0","8.5.1"],"url":"https://formachines.ai/errata/pypi/click/0001-click-parameter/"}]}
 ```
 
-and the same package at a version nobody checked, `"version":"8.6.0"`:
+`check_package {"ecosystem":"pypi","package":"mcp","version":"2.3.0"}` opens with
+
+```
+Dependencies found: 1, 1 with an exact version
+In Errata: 1 of them
+Match your versions: 3 entries — 1 patch, 1 partial, 1 lead
+Need a person: 1 to apply once your code is seen to use the changed name (detect), 2 for a manual decision (lead)
+Not covered: 0 dependencies
+No match does not mean your project is free of such errors.
+```
+
+and the same click package at a version nobody checked, `"version":"8.6.0"`:
 `status: "unconfirmed_version"`, verdict `lead`, reason *installed 8.6.0 is newer than the versions checked (8.5.0);
 one checked version is not a range*.
 

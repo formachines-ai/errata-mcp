@@ -20,7 +20,13 @@ export const CLIENT_RULE =
   "apply = checked on the installed version and proof.auto_apply true; lead = everything else that may apply; " +
   "none = the installed version predates the change. A newer version than the ones checked is never 'apply'.";
 
+/** FB-4: the line every check answer ends with, CLI and MCP alike. */
+export const NO_MATCH_NOTE = "No match does not mean your project is free of such errors.";
+
 export type Grade = "verified" | "possible" | "not_affected" | "unknown";
+/** FB-1: what an entry is good for. patch = the short patch applies word for word (proof.auto_apply); partial = it
+ * covers part of the change; lead = it does not apply word for word, the entry has a full example that works. */
+export type Readiness = "patch" | "partial" | "lead";
 export type Verdict = "apply" | "lead" | "none";
 
 export interface Assessed {
@@ -33,6 +39,7 @@ export interface Assessed {
   works_on?: string;
   verified_on: string[];
   auto_apply: boolean;
+  readiness: Readiness;
   wrong?: string;
   right?: string;
   detect?: string[];
@@ -67,13 +74,21 @@ export function verifiedOn(e: Entry, events: ChangelogEvent[]): string[] {
   return out;
 }
 
+/** The site's readiness field (since 2026-11-09); for older JSON, the same mapping from proof. */
+export function readinessOf(e: Entry): Readiness {
+  if (e.readiness === "patch" || e.readiness === "partial" || e.readiness === "lead") return e.readiness;
+  const st = e.proof.applicability?.status;
+  if (e.proof.auto_apply === true && (st === undefined || st === "applies")) return "patch";
+  return st === "incomplete" ? "partial" : "lead";
+}
+
 export function assessEntry(e: Entry, inst: Installed, events: ChangelogEvent[] = []): Assessed {
   const fails = e.versions.fails_on;
   const works = e.versions.works_on ?? e.proof.works_on;
   const ver = verifiedOn(e, events);
   const auto = e.proof.auto_apply === true;
   const base = {
-    id: e.id, symbol: e.symbol, fails_on: fails, works_on: works, verified_on: ver, auto_apply: auto,
+    id: e.id, symbol: e.symbol, fails_on: fails, works_on: works, verified_on: ver, auto_apply: auto, readiness: readinessOf(e),
     wrong: e.wrong, right: e.right, detect: e.detect, error: e.error_signature?.message, url: e.url,
   };
   const checked = `checked on ${e.package} ${ver.join(", ")}`;
@@ -157,4 +172,45 @@ export function installedFromArg(eco: Ecosystem, version: string | undefined): I
 export function inactiveById(id: string, events: ChangelogEvent[]): Excluded | null {
   const ev = events.find((x) => x.id === id && (x.event === "merged" || x.event === "withdrawn"));
   return ev ? { id, status: ev.event as "merged" | "withdrawn", target: ev.target ?? null, reason: ev.reason, url: ev.url } : null;
+}
+
+/** FB-4: the first answer of a check in five lines — what was read, what Errata covers, what matches by version
+ * (patch / partial / lead apart), what needs a person, what is not covered — plus NO_MATCH_NOTE. */
+export interface CheckSummary {
+  dependencies: number;
+  exact: number;
+  covered: number;
+  matching: { entries: number; patch: number; partial: number; lead: number };
+  to_check: { usage: number; manual: number };
+  not_covered: number;
+  note: string;
+}
+
+export function summarize(results: PackageResult[]): CheckSummary {
+  const live = results.flatMap((r) => r.entries.filter((e) => e.verdict !== "none"));
+  const by = (k: Readiness) => live.filter((e) => e.readiness === k).length;
+  return {
+    dependencies: results.length,
+    exact: results.filter((r) => r.installed.kind === "exact").length,
+    covered: results.filter((r) => r.coverage === "covered").length,
+    matching: { entries: live.length, patch: by("patch"), partial: by("partial"), lead: by("lead") },
+    to_check: { usage: live.filter((e) => e.verdict === "apply").length, manual: live.filter((e) => e.verdict === "lead").length },
+    not_covered: results.filter((r) => r.coverage === "no_coverage").length,
+    note: NO_MATCH_NOTE,
+  };
+}
+
+const n = (k: number, one: string, many = one + "s") => `${k} ${k === 1 ? one : many}`;
+
+export function summaryLines(s: CheckSummary): string[] {
+  return [
+    `Dependencies found: ${s.dependencies}, ${s.exact} with an exact version`,
+    `In Errata: ${s.covered} of them`,
+    `Match your versions: ${n(s.matching.entries, "entry", "entries")} — ${s.matching.patch} patch, ` +
+      `${s.matching.partial} partial, ${s.matching.lead} lead`,
+    `Need a person: ${s.to_check.usage} to apply once your code is seen to use the changed name (detect), ` +
+      `${s.to_check.manual} for a manual decision (lead)`,
+    `Not covered: ${n(s.not_covered, "dependency", "dependencies")}`,
+    s.note,
+  ];
 }

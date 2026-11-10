@@ -9,6 +9,7 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { serveSnapshot, deadUrl, Recorded } from "./helpers.js";
 import { VERSION } from "../src/version.js";
+import { NO_MATCH_NOTE } from "../src/core/index.js";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const BIN = join(ROOT, "dist", "bin.js");
@@ -49,6 +50,21 @@ describe("errata-mcp over stdio", () => {
     expect(tools.map((t) => t.name).sort()).toEqual(["check_package", "report", "search_error"]);
     for (const t of tools) expect((t.description || "").length).toBeLessThan(500);
     expect(client.getServerVersion()).toMatchObject({ name: "errata", version: VERSION });
+  });
+
+  it("check_package opens with the five-line summary (FB-4) and gives readiness", async () => {
+    const { body } = await call(client, "check_package", { ecosystem: "pypi", package: "mcp", version: "2.3.0" });
+    expect(body.summary[0]).toBe("Dependencies found: 1, 1 with an exact version");
+    expect(body.summary[1]).toBe("In Errata: 1 of them");
+    expect(body.summary[2]).toMatch(/^Match your versions: 3 entries — \d+ patch, \d+ partial, \d+ lead$/);
+    expect(body.summary[3]).toBe("Need a person: 1 to apply once your code is seen to use the changed name (detect), 2 for a manual decision (lead)");
+    expect(body.summary[4]).toBe("Not covered: 0 dependencies");
+    expect(body.summary[5]).toBe(NO_MATCH_NOTE);
+    expect(body.entries.every((e: any) => ["patch", "partial", "lead"].includes(e.readiness))).toBe(true);
+    expect(body.entries.find((e: any) => e.verdict === "apply").readiness).toBe("patch");
+    const none = await call(client, "check_package", { ecosystem: "pypi", package: "left-pad-not-there", version: "1.0.0" });
+    expect(none.body.summary[4]).toBe("Not covered: 1 dependency");
+    expect(none.body.summary[5]).toBe(NO_MATCH_NOTE);
   });
 
   it("1 known package, checked version → found, apply", async () => {
